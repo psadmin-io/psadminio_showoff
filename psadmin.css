@@ -244,6 +244,13 @@ img.io {
   width: 25%;
 }
 
+/* ### Preshow */
+img.preshow {
+  padding-top: 10%;
+  padding-bottom: 10%;
+  padding-right: 10%;
+  padding-left: 15%;
+}
 
 /* ### Supplemental Slides */
 
