@@ -40,7 +40,7 @@
 
 1. Leverage OCI technologies
   * Compartments
-  * Regions
+  * Availability Domains/Fault Domains
   * Block Storage 
   * File Storage (8 Exabytes)
   * Drive Attachments
@@ -53,11 +53,93 @@ Compartments: We have a non-production compartment for both non-prod and DR. The
 Drive Attachments: OCI provides a great feature called Consistent Drive Attachments for easy `fstab` entries and for mounting attached storage
 ~~~ENDSECTION~~~
 
+!SLIDE bullets incremental
 
-<!-- !SLIDE bullets
+# OCI Architecture Design
+
+> How to take these features and design an architecture?
+
+* Separate prod/non-prod/dr via comparments
+* Per-comparment
+  * Permissions and accesss
+  * Virtual Cloud Networks
+  * VPN Tunnel
+
+!SLIDE bullets
+
+# OCI Architecture Design
+
+> How to take these features and design an architecture?
+
+        @@@ render-diagram
+        graph TD;
+
+          us-asuburn-1-->sSDT:US-ASHBURN-AD-1;
+          us-asuburn-1-->sSDT:US-ASHBURN-AD-2;
+          us-asuburn-1-->sSDT:US-ASHBURN-AD-3;
+          sSDT:US-ASHBURN-AD-1-->AD1-FAULT-DOMAIN1;
+          sSDT:US-ASHBURN-AD-1-->AD1-FAULT-DOMAIN2;
+          sSDT:US-ASHBURN-AD-1-->AD1-FAULT-DOMAIN3;
+          sSDT:US-ASHBURN-AD-2-->AD2-FAULT-DOMAIN1;
+          sSDT:US-ASHBURN-AD-2-->AD2-FAULT-DOMAIN2;
+          sSDT:US-ASHBURN-AD-2-->AD2-FAULT-DOMAIN3;
+          sSDT:US-ASHBURN-AD-3-->AD3-FAULT-DOMAIN1;
+          sSDT:US-ASHBURN-AD-3-->AD3-FAULT-DOMAIN2;
+          sSDT:US-ASHBURN-AD-3-->AD3-FAULT-DOMAIN3;
+
+* Use Fault Domains for HA
+* Availability Domains are for Failover
+  * AD's are data centers approx 
+* Lack of Regional Subnets forced design
+
+~~~SECTION:notes~~~
+FD's are different cabinets inside the data center. Good for HA because the network is fast
+
+AD's are distinct data centers in close proximity to each other. High-speed, low-latency connections between ADs exist, but are still slow enough to be a concern for HA. They are better suited for failover (Data Guard, DR, etc)
+
+Lack of regional subnets forced us to pick an AD because our subnet didn't span AD's like the regional subnets do.
+~~~ENDSECTION~~~
+
+
+!SLIDE bullets
+
+# OCI Architecture Design
+
+> How to take these features and design an architecture?
+
+* Utilize block storage mounts for all instances
+  * Different backup polices for storage mounts/os mounts
+  * Instance replication happens with cloning mounts
+* Common File Storage
+  * Centralized NFS mounts per-compartment
+  * Extremely helpful with the DPK
+
+!SLIDE bullets
 
 # OCI Architecture
- -->
+
+![SPPS Architecture](../_images/OCIArch.png)
+
+!SLIDE bullets
+
+# OCI Architecture
+
+Storage Mounts
+* `/u01` is a separate block storage attachment
+* `/u01/software` is a file storage mount
+
+DPK 
+* Centralized DPK storage at `/u01/software/dpk`
+* Double Symlink system for `psft_customizations.yaml`
+
+!SLIDE bullets
+
+# OCI Architecture
+
+Backups
+* RMAN backups sent to object storage
+* Block storage policies to back up daily/weekly
+* 
 
 
 !SLIDE center subsection blue
@@ -89,6 +171,7 @@ Drive Attachments: OCI provides a great feature called Consistent Drive Attachme
       * Exadata on OEL 7
   * some new features we haven't adopted
       * monitoring and notification
+      * security groups (using security lists now)
 
 !SLIDE bullets incremental
 
@@ -189,14 +272,12 @@ Drive Attachments: OCI provides a great feature called Consistent Drive Attachme
 
 # Demo
 
-!SLIDE bullets
+!SLIDE supplemental guide
 
-# Terraform Demo
+Tasks: 
 
 * Walk though two modules
 * Build a DR server
-
-!SLIDE supplemental guide
 
 # Terraform Demo
 
