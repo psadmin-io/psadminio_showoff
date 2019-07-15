@@ -124,22 +124,26 @@ Lack of regional subnets forced us to pick an AD because our subnet didn't span 
 
 # OCI Architecture
 
-Storage Mounts
-* `/u01` is a separate block storage attachment
-* `/u01/software` is a file storage mount
+* Storage Mounts
+  * `/u01` is a separate block storage attachment
+  * `/u01/software` is a file storage mount
 
-DPK 
-* Centralized DPK storage at `/u01/software/dpk`
-* Double Symlink system for `psft_customizations.yaml`
+* DPK 
+  * Centralized DPK storage at `/u01/software/dpk`
+  * Double Symlink system for `psft_customizations.yaml`
 
 !SLIDE bullets
 
 # OCI Architecture
 
-Backups
-* RMAN backups sent to object storage
-* Block storage policies to back up daily/weekly
-* 
+* Backups
+  * RMAN backups sent to object storage
+  * Block storage policies to back up daily/weekly
+
+* AD Usage
+  * Limited to AD1 for Exadata
+  * DR and Non-Prod pinned to ADs
+  * Works for our hybrid configuration
 
 
 !SLIDE center subsection blue
