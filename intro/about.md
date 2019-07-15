@@ -16,7 +16,15 @@
 * PeopleSoft Administrator
 * Developer, Tech Lead, Project Manager
 * Oracle ACE
-* 15+ Years with PeopleSoft
+* psadmin.io - blog, podcast, courses, conference
+
+!SLIDE bullets
+
+# Jeff Cummings
+
+* St. Paul Public Schools
+* 22 Years of PeopleSoft Experience
+* BS Support Manager
 
 !SLIDE bullets
 

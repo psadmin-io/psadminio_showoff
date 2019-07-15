@@ -2,11 +2,7 @@
 
 # Agenda
 
-Demonstrate tips to:
-
-* Simplify Elasticsearch management
-* Monitor Elasticsearch
-* Debug Elasticsearch issues
-* Understand Elasticsearch security
-
-> Not a walk-through on setting up ES
+* Life before Oracle Cloud Infrastructure (OCI)
+* Why Move to OCI
+* Technical Challenges
+* Terraform and OCI
