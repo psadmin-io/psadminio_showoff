@@ -12,7 +12,8 @@
     "intro/intro.md",
     "intro/about.md",
     "intro/agenda.md",
-    "topic/topic.md"
+    "topic/topic.md",
+    "intro/closing.md"
   ],
-  "edit": "https://github.com/psadmin-io/<repo>/edit/develop/"
+  "edit": "https://github.com/psadmin-io/talk.terraforming-ps-on-oci/edit/develop/"
 }
