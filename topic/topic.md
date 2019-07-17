@@ -44,6 +44,7 @@
   * Block Storage 
   * File Storage (8 Exabytes)
   * Drive Attachments
+  * Exadata Cloud Service/Data Guard
 1. Follow Cloud Manager Guidelines
   * Admin/Middleware/DB subnets
 
@@ -59,13 +60,13 @@ Drive Attachments: OCI provides a great feature called Consistent Drive Attachme
 
 > How to take these features and design an architecture?
 
-* Separate prod/non-prod/dr via comparments
+* Separate prod, non-prod & dr via comparments
 * Per-comparment
   * Permissions and accesss
   * Virtual Cloud Networks
   * VPN Tunnel
 
-!SLIDE bullets
+!SLIDE bullets incremental
 
 # OCI Architecture Design
 
@@ -89,7 +90,7 @@ Drive Attachments: OCI provides a great feature called Consistent Drive Attachme
 
 * Use Fault Domains for HA
 * Availability Domains are for Failover
-  * AD's are data centers approx 
+  * AD's are data centers in close physical proximity 
 * Lack of Regional Subnets forced design
 
 ~~~SECTION:notes~~~
@@ -101,7 +102,7 @@ Lack of regional subnets forced us to pick an AD because our subnet didn't span 
 ~~~ENDSECTION~~~
 
 
-!SLIDE bullets
+!SLIDE bullets incremental
 
 # OCI Architecture Design
 
@@ -109,8 +110,9 @@ Lack of regional subnets forced us to pick an AD because our subnet didn't span 
 
 * Utilize block storage mounts for all instances
   * Different backup polices for storage mounts/os mounts
-  * Instance replication happens with cloning mounts
-* Common File Storage
+  * Instance replication happens with cloning storage
+* File Storage Service
+  * No need for a NFS server instance
   * Centralized NFS mounts per-compartment
   * Extremely helpful with the DPK
 
@@ -126,18 +128,17 @@ Lack of regional subnets forced us to pick an AD because our subnet didn't span 
 
 * Storage Mounts
   * `/u01` is a separate block storage attachment
-  * `/u01/software` is a file storage mount
+  * `/u01/software` is a file service mount
 
 * DPK 
   * Centralized DPK storage at `/u01/software/dpk`
-  * Double Symlink system for `psft_customizations.yaml`
 
 !SLIDE bullets
 
 # OCI Architecture
 
 * Backups
-  * RMAN backups sent to object storage
+  * non-prod RMAN backups sent to object storage
   * Block storage policies to back up daily/weekly
 
 * AD Usage
@@ -145,6 +146,9 @@ Lack of regional subnets forced us to pick an AD because our subnet didn't span 
   * DR and Non-Prod pinned to ADs
   * Works for our hybrid configuration
 
+* DR
+  * Data Guard from ODA to Exadata
+  * Cron jobs to sync file data
 
 !SLIDE center subsection blue
 
@@ -213,7 +217,7 @@ Lack of regional subnets forced us to pick an AD because our subnet didn't span 
 ~~~ENDSECTION~~~
 
 
-!SLIDE bullets
+!SLIDE bullets incremental
 
 # Terraform Benefits
 
@@ -233,7 +237,7 @@ Lack of regional subnets forced us to pick an AD because our subnet didn't span 
 ~~~ENDSECTION~~~
 
 
-!SLIDE bullets
+!SLIDE bullets incremental
 
 # Terraform State
 
@@ -241,11 +245,11 @@ Lack of regional subnets forced us to pick an AD because our subnet didn't span 
 * Reports changes to infrastructure
 
         @@@
-        # oci_core_instance.psapp[1] will be created
-        # oci_core_volume.psapp_storage[1] will be created
-        # oci_core_volume_attachment.psapp_storage_attachment[1] will be created
-        # oci_core_volume_backup_policy_assignment.psapp_boot[1] will be created
-        # oci_core_volume_backup_policy_assignment.psapp_storage[1] will be created
+        oci_core_instance.psapp[1] will be created
+        oci_core_volume.psapp_storage[1] will be created
+        oci_core_volume_attachment.psapp_storage_attachment[1] will be created
+        oci_core_volume_backup_policy_assignment.psapp_boot[1] will be created
+        oci_core_volume_backup_policy_assignment.psapp_storage[1] will be created
         Plan: 5 to add, 0 to change, 0 to destroy.
 
 !SLIDE bullets

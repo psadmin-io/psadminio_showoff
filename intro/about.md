@@ -25,13 +25,3 @@
 * St. Paul Public Schools
 * 22 Years of PeopleSoft Experience
 * BS Support Manager
-
-!SLIDE bullets
-
-# About psadmin.io
-
-* Blog
-* Podcast
-* Community
-* Training
-* Coaching

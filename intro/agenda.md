@@ -3,6 +3,6 @@
 # Agenda
 
 * Life before Oracle Cloud Infrastructure (OCI)
-* Why Move to OCI
+* OCI Migration
 * Technical Challenges
 * Terraform and OCI

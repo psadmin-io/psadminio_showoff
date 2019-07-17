@@ -9,7 +9,7 @@
   1. PUM and Change Lifecycle
   1. Elasticsearch and Search Framework
 * github.com/psadmin-io
-* psadmin.conf
+* psadmin.conf (May 4-6, 2020)
 
 !SLIDE bullets
 
