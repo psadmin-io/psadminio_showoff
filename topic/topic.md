@@ -18,7 +18,8 @@
 * ODA on site for production
   * 28-core system to 16-core system (ODA)
 * OCI for non-prod and Disaster Recovery
-  * Migrated to OCI 4/1/19
+  * Migrated to OCI-Classic 1/2017
+  * Migrated to OCI 4/2019
   * Exadata as a Service for Database
 
 !SLIDE bullets
